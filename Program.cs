@@ -102,7 +102,7 @@ namespace RPS
                         Console.WriteLine("Ties: " + Playtie);
                         int ratio = (userWin / compWin);
                         Console.WriteLine("\nWin/Loss Ratio: " + ratio);
-                        loop1 = false;
+                        //loop1 = false;
                         loop2 = true;
                         continue;
                     }
@@ -149,7 +149,7 @@ namespace RPS
                             Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } wins");
                         }
 
-                        loop1 = false;
+                        //loop1 = false;
                         loop2 = true;
                         
                     }

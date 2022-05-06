@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FinalProject.csproj": {}
+    "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FInalProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FinalProject.csproj": {
+    "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FInalProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FinalProject.csproj",
-        "projectName": "FinalProject",
-        "projectPath": "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FinalProject.csproj",
+        "projectUniqueName": "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FInalProject.csproj",
+        "projectName": "FInalProject",
+        "projectPath": "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\FInalProject.csproj",
         "packagesPath": "C:\\Users\\jlram\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\jlram\\OneDrive\\Documents\\Coding for Class\\IT 2040\\C#\\FinalProject\\obj\\",
         "projectStyle": "PackageReference",

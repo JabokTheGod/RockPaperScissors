@@ -15,6 +15,7 @@ namespace RPS
         public int Win { get; set; }
         public int Loss { get; set; }
         public int Tie { get; set; }
+        public int TotalMatches { get => Win + Loss + Tie; }
 
         public override string ToString()
         {

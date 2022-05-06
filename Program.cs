@@ -26,13 +26,14 @@ namespace RPS
                 int userWin = 0;
                 int compWin = 0;
                 int Playtie = 0;
-                bool loop = true;
+                bool loop1 = true;
+                bool loop2 = true;
 
                 Console.WriteLine("What is your name?");
                 string playerName = Console.ReadLine();
                 Console.WriteLine("Hello " + playerName + ". Let's play!\n");
                 int roundNum = 1;
-                while(loop == true)
+                while(loop1 == true)
                 { 
                     
                     Console.WriteLine("Round " + roundNum + "\n\n1. Rock\n2. Paper\n3. Scissors\n\nWhat will it be?");
@@ -83,12 +84,14 @@ namespace RPS
                         continue;
                     }
                     roundNum += 1;
+                    while (loop2 == true)
+                    {
                     Console.WriteLine("What would you like to do?\n\n1. Play Again\n2. View Player Statistics\n3. View Leaderboard\n4. Quit\n\nEnter choice: ");
                     string UP = Console.ReadLine();
                     int UPint = Int32.Parse(UP);
                     if (UPint == 1)
                     {
-                        loop = true;
+                        loop1 = true;
                         continue;
                     }
                     else if (UPint == 2)
@@ -99,6 +102,8 @@ namespace RPS
                         Console.WriteLine("Ties: " + Playtie);
                         int ratio = (userWin / compWin);
                         Console.WriteLine("\nWin/Loss Ratio: " + ratio);
+                        loop1 = false;
+                        loop2 = true;
                         continue;
                     }
                     else if(UPint == 3)
@@ -131,12 +136,27 @@ namespace RPS
                             
                         }
                         Console.WriteLine("Top 10 Winning Players");
-                        //var TopTen = from player in playerDataList orderby player.Name select new() ; //working on
-                        //where song.Name.ToCharArray().Length > 85 orderby song.Year descending select song;
+                        var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
+                        var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+                        //Console.WriteLine($"{TopTenWins}");
+                        //Console.WriteLine($"{ TopGamePlays }");
+                        foreach(var HighScore in TopTenWins)
+                        {
+                            Console.WriteLine($"{ HighScore.Name }: { HighScore.Win }");
+                        }
+                        foreach(var HighPlays in TopGamePlays)
+                        {
+                            Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } wins");
+                        }
+
+                        loop1 = false;
+                        loop2 = true;
+                        
                     }
                     else
                     {
                         return;
+                    }
                     }
                 }
     

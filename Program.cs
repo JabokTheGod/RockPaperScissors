@@ -20,7 +20,8 @@ namespace RPS
 
             Console.WriteLine("Welcome to Rock, Paper, Scissors!\n\n1. Start New Game\n2. Load Game\n3. Quit\n\nEnter choice: ");
             string MenuChoice = Console.ReadLine();
-            if (MenuChoice == "Start New Game")
+            int MenuChoiceInt = Int32.Parse(MenuChoice);
+            if (MenuChoiceInt == 1)
             {
                 int userWin = 0;
                 int compWin = 0;
@@ -35,41 +36,41 @@ namespace RPS
                 { 
                     
                     Console.WriteLine("Round " + roundNum + "\n\n1. Rock\n2. Paper\n3. Scissors\n\nWhat will it be?");
-                    string[] Choices = new string[3]{"Rock","Paper","Scissors"};
+                    int[] Choices = new int[3]{1,2,3};
                     
                     string userPick = Console.ReadLine();
+                    int userPickInt = Int32.Parse(userPick);
                     //Console.WriteLine("You chose " + userPick + ". The computer chose " + Comp + ". You " + WL + "!");
-                
                   
                     //computer random pick
                     Random Comp = new Random();
                     int abc = Comp.Next(0, 3);
-                    if (userPick == "Rock" && Choices[abc] == "Scissors")
+                    if (userPickInt == 1 && Choices[abc] == 3)
                     {
                         Console.WriteLine("You chose Rock. The computer chose Scissors. You Win!");
                         userWin += 1;
                     }
-                    else if (userPick == "Rock" && Choices[abc] == "Paper")
+                    else if (userPickInt == 1 && Choices[abc] == 2)
                     {
                         Console.WriteLine("You chose Rock. The computer chose Paper. You Lose!");
                         compWin += 1;
                     }
-                    else if (userPick == "Paper" && Choices[abc] == "Rock")
+                    else if (userPickInt == 2 && Choices[abc] == 1)
                     {
                         Console.WriteLine("You chose Paper. The computer chose Rock. You Win!");
                         userWin += 1;
                     }
-                    else if (userPick == "Paper" && Choices[abc] == "Scissors")
+                    else if (userPickInt == 2 && Choices[abc] == 3)
                     {
                         Console.WriteLine("You chose Paper. The computer chose Scissors. You Lose!");
                         compWin += 1;
                     }
-                    else if (userPick == "Scissors" && Choices[abc] == "Paper")
+                    else if (userPickInt == 3 && Choices[abc] == 2)
                     {
                         Console.WriteLine("You chose Scissors. The computer chose Paper. You Win!");
                         userWin += 1;
                     }
-                    else if (userPick == "Scissors" && Choices[abc] == "Rock")
+                    else if (userPickInt == 3 && Choices[abc] == 1)
                     {
                         Console.WriteLine("You chose Scissors. The computer chose Rock. You Lose!");
                         compWin += 1;
@@ -84,12 +85,13 @@ namespace RPS
                     roundNum += 1;
                     Console.WriteLine("What would you like to do?\n\n1. Play Again\n2. View Player Statistics\n3. View Leaderboard\n4. Quit\n\nEnter choice: ");
                     string UP = Console.ReadLine();
-                    if (UP == "Play Again")
+                    int UPint = Int32.Parse(UP);
+                    if (UPint == 1)
                     {
                         loop = true;
                         continue;
                     }
-                    else if (UP == "View Player Statistics")
+                    else if (UPint == 2)
                     {
                         Console.WriteLine(playerName + ", here are your game play statistics…\n");
                         Console.WriteLine("Wins: " + userWin);
@@ -99,7 +101,7 @@ namespace RPS
                         Console.WriteLine("\nWin/Loss Ratio: " + ratio);
                         continue;
                     }
-                    else if(UP == "View Leaderboard")
+                    else if(UPint == 3)
                     {
                         if (File.Exists(PlayerLogFilePath))
                         {
@@ -139,7 +141,7 @@ namespace RPS
                 }
     
             }
-            else if (MenuChoice == "Load Game")
+            else if (MenuChoiceInt == 2)
             {
                 Console.WriteLine("What is your name?");
                 string playerName = Console.ReadLine();

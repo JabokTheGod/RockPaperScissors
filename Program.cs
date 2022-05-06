@@ -135,9 +135,15 @@ namespace RPS
                             
                             
                         }
+                        // using(StreamWriter writer = new StreamWriter(reportFile)) 
+                        // {
+                        //     writer.WriteLine(report);
+                        // }
                         Console.WriteLine("Top 10 Winning Players");
                         var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
                         var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+                        var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+
                         //Console.WriteLine($"{TopTenWins}");
                         //Console.WriteLine($"{ TopGamePlays }");
                         foreach(var HighScore in TopTenWins)

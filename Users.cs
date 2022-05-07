@@ -20,6 +20,10 @@ namespace RPS
         public int Loss { get; set; }
         public int Tie { get; set; }
         public int TotalMatches { get => Win + Loss + Tie; }
+        public double WLRatio()
+        {
+            return (double) Win / (double) Loss;
+        }
 
         public override string ToString()
         {

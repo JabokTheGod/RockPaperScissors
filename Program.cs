@@ -21,13 +21,15 @@ namespace RPS
             Console.WriteLine("Welcome to Rock, Paper, Scissors!\n\n1. Start New Game\n2. Load Game\n3. Quit\n\nEnter choice: ");
             string MenuChoice = Console.ReadLine();
             int MenuChoiceInt = Int32.Parse(MenuChoice);
+            
+            int userWin = 0;
+            int compWin = 0;
+            int Playtie = 0;
+            bool loop1 = true;
+            bool loop2 = true;
+
             if (MenuChoiceInt == 1)
             {
-                int userWin = 0;
-                int compWin = 0;
-                int Playtie = 0;
-                bool loop1 = true;
-                bool loop2 = true;
 
                 Console.WriteLine("What is your name?");
                 string playerName = Console.ReadLine();
@@ -137,7 +139,9 @@ namespace RPS
                             //     writer.WriteLine(report);
                             // }
                             
-                            Console.WriteLine("Top 10 Winning Players");
+                            Console.WriteLine("Global Game Stats");
+                            Console.WriteLine("----------------------");
+                            Console.WriteLine("----------------------");
                             var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
                             var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
                             //var TotalGames = from player in playerDataList where ;
@@ -145,14 +149,24 @@ namespace RPS
 
                             //Console.WriteLine($"{TopTenWins}");
                             //Console.WriteLine($"{ TopGamePlays }");
+                            Console.WriteLine("Top 10 Winning Players");
+                            Console.WriteLine("----------------------");
                             foreach(var HighScore in TopTenWins)
                             {
-                                Console.WriteLine($"{ HighScore.Name }: { HighScore.Win }");
+                                Console.WriteLine($"{ HighScore.Name }: { HighScore.Win } wins");
                             }
+                            Console.WriteLine("Most Played Games");
+                            Console.WriteLine("----------------------");
                             foreach(var HighPlays in TopGamePlays)
                             {
-                                Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } wins");
+                                Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } games played");
                             }
+                            Console.WriteLine("----------------------");
+                            Console.WriteLine("Win/Loss Ratio: ");
+                            Console.WriteLine("----------------------\n");
+                            Console.WriteLine("----------------------");
+                            Console.WriteLine("Total Games Played: ");
+                            Console.WriteLine("----------------------");
 
                             //loop1 = false;
                             loop2 = true;
@@ -169,13 +183,18 @@ namespace RPS
             {
                 Console.WriteLine("What is your name?");
                 string playerName = Console.ReadLine();
-                /*
-                if (playerName == playerDataList[Name])
+                if (GetExisitngPlayer(playerDataList, playerName) != null)
                 {
-
+                    Console.WriteLine("Welcome back " + playerName + ". Let's play!");
+                    loop1 = true;
                 }
-                */
-                Console.WriteLine("Welcome back " + playerName + ". Let's play!");
+                else
+                {
+                    Console.WriteLine("Player does not exist.");
+                    return;
+                }
+                
+                
                 // Needs code for if name cant be found
                 //Console.WriteLine(playerName + ", your game could not be found.");
             }
@@ -185,7 +204,17 @@ namespace RPS
             }
 
         }
-    
+        static PlayerData GetExisitngPlayer(List<PlayerData> playerDataList, string playerName)
+        {
+            foreach (PlayerData player in playerDataList)
+            {
+                if (player.Name.ToLower() == playerName.ToLower())
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
 
         static bool ReadPlayerData(string filePath)
         {

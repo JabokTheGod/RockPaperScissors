@@ -162,7 +162,7 @@ namespace RPS
                                 Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } games played");
                             }
                             Console.WriteLine("----------------------");
-                            Console.WriteLine("Win/Loss Ratio: ");
+                            Console.WriteLine("Win/Loss Ratio: ");//+ PlayerData.WLRatio().ToString("0.00")
                             Console.WriteLine("----------------------\n");
                             Console.WriteLine("----------------------");
                             Console.WriteLine("Total Games Played: ");

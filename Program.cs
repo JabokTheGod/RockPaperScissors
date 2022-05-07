@@ -35,7 +35,6 @@ namespace RPS
                 int roundNum = 1;
                 while(loop1 == true)
                 { 
-                    
                     Console.WriteLine("Round " + roundNum + "\n\n1. Rock\n2. Paper\n3. Scissors\n\nWhat will it be?");
                     int[] Choices = new int[3]{1,2,3};
                     
@@ -86,88 +85,85 @@ namespace RPS
                     roundNum += 1;
                     while (loop2 == true)
                     {
-                    Console.WriteLine("What would you like to do?\n\n1. Play Again\n2. View Player Statistics\n3. View Leaderboard\n4. Quit\n\nEnter choice: ");
-                    string UP = Console.ReadLine();
-                    int UPint = Int32.Parse(UP);
-                    if (UPint == 1)
-                    {
-                        loop1 = true;
-                        continue;
-                    }
-                    else if (UPint == 2)
-                    {
-                        Console.WriteLine(playerName + ", here are your game play statistics…\n");
-                        Console.WriteLine("Wins: " + userWin);
-                        Console.WriteLine("Losses: " + compWin);
-                        Console.WriteLine("Ties: " + Playtie);
-                        decimal ratio = (userWin / compWin);
-                        Console.WriteLine("\nWin/Loss Ratio: " + ratio);
-                        //loop1 = false;
-                        loop2 = true;
-                        continue;
-                    }
-                    else if(UPint == 3)
-                    {
-                        if (File.Exists(PlayerLogFilePath))
+                        Console.WriteLine("What would you like to do?\n\n1. Play Again\n2. View Player Statistics\n3. View Leaderboard\n4. Quit\n\nEnter choice: ");
+                        string UP = Console.ReadLine();
+                        int UPint = Int32.Parse(UP);
+                        if (UPint == 1)
                         {
-                            if(ReadPlayerData(PlayerLogFilePath))
+                            loop1 = true;
+                            continue;
+                        }
+                        else if (UPint == 2)
+                        {
+                            Console.WriteLine(playerName + ", here are your game play statistics…\n");
+                            Console.WriteLine("Wins: " + userWin);
+                            Console.WriteLine("Losses: " + compWin);
+                            Console.WriteLine("Ties: " + Playtie);
+                            decimal ratio = (userWin / compWin);
+                            Console.WriteLine("\nWin/Loss Ratio: " + ratio);
+                            //loop1 = false;
+                            loop2 = true;
+                            continue;
+                        }
+                        else if(UPint == 3)
+                        {
+                            if (File.Exists(PlayerLogFilePath))
                             {
-                                //exception for creating file
-                                try
+                                if(ReadPlayerData(PlayerLogFilePath))
                                 {
-                                    // Open the text file using a stream reader.
-                                    using (var reader = new StreamReader("player_log.csv"))
+                                    //exception for creating file
+                                    try
                                     {
-                                        var line = reader.ReadLine();
-                                        var values = line.Split(',');
+                                        // Open the text file using a stream reader.
+                                        using (var reader = new StreamReader("player_log.csv"))
+                                        {
+                                            var line = reader.ReadLine();
+                                            var values = line.Split(',');
+                                        }
                                     }
+                                    catch (IOException e)
+                                    {
+                                        Console.WriteLine("The file could not be read:");
+                                        Console.WriteLine(e.Message);
+                                    } 
                                 }
-                                catch (IOException e)
+                                else
                                 {
-                                    Console.WriteLine("The file could not be read:");
-                                    Console.WriteLine(e.Message);
-                                } 
+                                    Console.WriteLine($"Player Log does not exist at path: " , PlayerLogFilePath);
+                                }
                             }
-                            else
+                            // using(StreamWriter writer = new StreamWriter(reportFile)) 
+                            // {
+                            //     writer.WriteLine(report);
+                            // }
+                            
+                            Console.WriteLine("Top 10 Winning Players");
+                            var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
+                            var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+                            //var TotalGames = from player in playerDataList where ;
+                            //var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+
+                            //Console.WriteLine($"{TopTenWins}");
+                            //Console.WriteLine($"{ TopGamePlays }");
+                            foreach(var HighScore in TopTenWins)
                             {
-                                Console.WriteLine($"Player Log does not exist at path: " , PlayerLogFilePath);
+                                Console.WriteLine($"{ HighScore.Name }: { HighScore.Win }");
                             }
-                            
-                            
-                        }
-                        // using(StreamWriter writer = new StreamWriter(reportFile)) 
-                        // {
-                        //     writer.WriteLine(report);
-                        // }
-                        
-                        Console.WriteLine("Top 10 Winning Players");
-                        var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
-                        var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
-                        //var TotalGames = from player in playerDataList where ;
-                        //var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+                            foreach(var HighPlays in TopGamePlays)
+                            {
+                                Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } wins");
+                            }
 
-                        //Console.WriteLine($"{TopTenWins}");
-                        //Console.WriteLine($"{ TopGamePlays }");
-                        foreach(var HighScore in TopTenWins)
-                        {
-                            Console.WriteLine($"{ HighScore.Name }: { HighScore.Win }");
+                            //loop1 = false;
+                            loop2 = true;
+                            
                         }
-                        foreach(var HighPlays in TopGamePlays)
+                        else
                         {
-                            Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } wins");
+                            return;
                         }
-
-                        //loop1 = false;
-                        loop2 = true;
-                        
-                    }
-                    else
-                    {
-                        return;
-                    }
                     }
                 }
-    
             }
             else if (MenuChoiceInt == 2)
             {

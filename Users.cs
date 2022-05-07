@@ -11,6 +11,10 @@ namespace RPS
 {
     public class PlayerData
     {
+        // public static int totalGames{
+        //     get { return PlayerData.TW + PlayerData.TL + PlayerData.TT; }
+        // }
+        // public static int TW;
         public string Name { get; set; }
         public int Win { get; set; }
         public int Loss { get; set; }

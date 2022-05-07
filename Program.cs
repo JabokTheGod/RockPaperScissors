@@ -16,7 +16,7 @@ namespace RPS
         {
             //string MenuChoice = "";
             //Prints Menu Choices
-            string PlayerLogFilePath = string.Empty;
+            string PlayerLogFilePath = "player_log.csv";
 
             Console.WriteLine("Welcome to Rock, Paper, Scissors!\n\n1. Start New Game\n2. Load Game\n3. Quit\n\nEnter choice: ");
             string MenuChoice = Console.ReadLine();
@@ -100,7 +100,7 @@ namespace RPS
                         Console.WriteLine("Wins: " + userWin);
                         Console.WriteLine("Losses: " + compWin);
                         Console.WriteLine("Ties: " + Playtie);
-                        int ratio = (userWin / compWin);
+                        decimal ratio = (userWin / compWin);
                         Console.WriteLine("\nWin/Loss Ratio: " + ratio);
                         //loop1 = false;
                         loop2 = true;
@@ -139,10 +139,12 @@ namespace RPS
                         // {
                         //     writer.WriteLine(report);
                         // }
+                        
                         Console.WriteLine("Top 10 Winning Players");
                         var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
                         var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
-                        var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
+                        //var TotalGames = from player in playerDataList where ;
+                        //var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
 
                         //Console.WriteLine($"{TopTenWins}");
                         //Console.WriteLine($"{ TopGamePlays }");

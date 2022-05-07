@@ -193,16 +193,11 @@ namespace RPS
                     Console.WriteLine("Player does not exist.");
                     return;
                 }
-                
-                
-                // Needs code for if name cant be found
-                //Console.WriteLine(playerName + ", your game could not be found.");
             }
             else
             {
                 return;
             }
-
         }
         static PlayerData GetExisitngPlayer(List<PlayerData> playerDataList, string playerName)
         {
@@ -215,7 +210,6 @@ namespace RPS
             }
             return null;
         }
-
         static bool ReadPlayerData(string filePath)
         {
             Console.WriteLine($"Reading data from: " , filePath);

@@ -12,12 +12,15 @@ namespace RPS
     public class Program
     {
         private static List<PlayerData> playerDataList = new List<PlayerData>();
+        static PlayerData CurrentPlayer;
         static void Main(string[] args)
         {
+
             //string MenuChoice = "";
             //Prints Menu Choices
             string PlayerLogFilePath = "player_log.csv";
-
+            ReadPlayerData(PlayerLogFilePath);
+            
             Console.WriteLine("Welcome to Rock, Paper, Scissors!\n\n1. Start New Game\n2. Load Game\n3. Quit\n\nEnter choice: ");
             string MenuChoice = Console.ReadLine();
             int MenuChoiceInt = Int32.Parse(MenuChoice);
@@ -93,7 +96,7 @@ namespace RPS
                         if (UPint == 1)
                         {
                             loop1 = true;
-                            continue;
+                            break;
                         }
                         else if (UPint == 2)
                         {
@@ -109,31 +112,7 @@ namespace RPS
                         }
                         else if(UPint == 3)
                         {
-                            if (File.Exists(PlayerLogFilePath))
-                            {
-                                if(ReadPlayerData(PlayerLogFilePath))
-                                {
-                                    //exception for creating file
-                                    try
-                                    {
-                                        // Open the text file using a stream reader.
-                                        using (var reader = new StreamReader("player_log.csv"))
-                                        {
-                                            var line = reader.ReadLine();
-                                            var values = line.Split(',');
-                                        }
-                                    }
-                                    catch (IOException e)
-                                    {
-                                        Console.WriteLine("The file could not be read:");
-                                        Console.WriteLine(e.Message);
-                                    } 
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Player Log does not exist at path: " , PlayerLogFilePath);
-                                }
-                            }
+
                             // using(StreamWriter writer = new StreamWriter(reportFile)) 
                             // {
                             //     writer.WriteLine(report);
@@ -142,7 +121,7 @@ namespace RPS
                             Console.WriteLine("Global Game Stats");
                             Console.WriteLine("----------------------");
                             Console.WriteLine("----------------------");
-                            var TopTenWins = (from player in playerDataList orderby player.Win select player).Take(10);
+                            var TopTenWins = (from player in playerDataList orderby player.Win descending select player).Take(10);
                             var TopGamePlays = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
                             //var TotalGames = from player in playerDataList where ;
                             //var TotalGames = (from player in playerDataList orderby player.TotalMatches descending select player).Take(5);
@@ -161,11 +140,21 @@ namespace RPS
                             {
                                 Console.WriteLine($"{ HighPlays.Name }: { HighPlays.TotalMatches } games played");
                             }
+                            //+ PlayerData.WLRatio().ToString("0.00")
+                            int totalWins = 0;
+                            int totalLosses = 0;
+                            int totalGames = 0;
+                            foreach(var player in playerDataList)
+                            {
+                                totalWins = player.Win + totalWins;
+                                totalLosses = player.Loss + totalLosses;
+                                totalGames = player.TotalMatches + totalGames;
+                            } 
                             Console.WriteLine("----------------------");
-                            Console.WriteLine("Win/Loss Ratio: ");//+ PlayerData.WLRatio().ToString("0.00")
+                            Console.WriteLine("Win/Loss Ratio: " + (totalWins / totalLosses));
                             Console.WriteLine("----------------------\n");
                             Console.WriteLine("----------------------");
-                            Console.WriteLine("Total Games Played: ");
+                            Console.WriteLine("Total Games Played: " + totalGames);
                             Console.WriteLine("----------------------");
 
                             //loop1 = false;
@@ -183,7 +172,8 @@ namespace RPS
             {
                 Console.WriteLine("What is your name?");
                 string playerName = Console.ReadLine();
-                if (GetExisitngPlayer(playerDataList, playerName) != null)
+                CurrentPlayer = GetExisitngPlayer(playerDataList, playerName);
+                if (CurrentPlayer != null)
                 {
                     Console.WriteLine("Welcome back " + playerName + ". Let's play!");
                     loop1 = true;
@@ -216,43 +206,51 @@ namespace RPS
 
             try 
             {
-                int NumItemsInRow = 0;
-                string[] lineNumbers = File.ReadAllLines(filePath);
-                for (int i = 0; i < lineNumbers.Length; i++)
+                int NumItemsInRow = 4;
+                try
                 {
-                    string lineNumber = lineNumbers[i];
-                    string[] value = lineNumber.Split('\t');
-                    
-                    if (i == 0)
+                    // Open the text file using a stream reader.
+                    using (var reader = new StreamReader(filePath))
                     {
-                        NumItemsInRow = value.Length;
-                    }
-                    else
-                    {
-                        if (NumItemsInRow != value.Length)
+                        string line;
+                        int lineNumber = 1;
+                        while((line = reader.ReadLine()) != null)
                         {
-                            Console.WriteLine($"Row " , lineNumber , " contains " , value.Length , " values. It should contain " , NumItemsInRow , ".");
-                            return false;
-                        }
-                        else 
-                        {
-                            try
-                            {   
-                                PlayerData playerData = new PlayerData();
-                                playerData.Name = value[0];
-                                playerData.Win = Int32.Parse(value[1]);
-                                playerData.Loss = Int32.Parse(value[2]);
-                                playerData.Tie = Int32.Parse(value[3]);
-                                playerDataList.Add(playerData);
-                            }
-                            catch (InvalidCastException)
+                            var value = line.Split(',');
+                            
+                            if (NumItemsInRow != value.Length)
                             {
-                                Console.WriteLine($"Row " , i , " contains invalid value.");
+                                Console.WriteLine($"Row " , lineNumber , " contains " , value.Length , " values. It should contain " , NumItemsInRow , ".");
                                 return false;
                             }
+                            else 
+                            {
+                                try
+                                {   
+                                    PlayerData playerData = new PlayerData();
+                                    playerData.Name = value[0];
+                                    playerData.Win = Int32.Parse(value[1]);
+                                    playerData.Loss = Int32.Parse(value[2]);
+                                    playerData.Tie = Int32.Parse(value[3]);
+                                    playerDataList.Add(playerData);
+                                }
+                                catch (InvalidCastException)
+                                {
+                                    Console.WriteLine($"Row " , lineNumber , " contains invalid value.");
+                                    return false;
+                                }
+                            }
+                            lineNumber++;
                         }
                     }
                 }
+                catch (IOException e)
+                {
+                    Console.WriteLine("The file could not be read:");
+                    Console.WriteLine(e.Message);
+                }
+                string[] lineNumbers = File.ReadAllLines(filePath);
+                
                 Console.WriteLine($"Data reading success.");
                 return true;
             } 
